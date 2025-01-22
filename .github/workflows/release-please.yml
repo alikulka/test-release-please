@@ -27,10 +27,10 @@
           with:
             parse-json-secrets: true
             secret-ids: |
-              arn:aws:secretsmanager:us-west-2:337909763509:secret:github/release-please/pat-YJ2cZI
+              GITHUB_TOKEN, arn:aws:secretsmanager:us-west-2:337909763509:secret:github/release-please/pat-YJ2cZI
   
         - uses: google-github-actions/release-please-action@v4
           with:
             release-type: node
-            token: ${{ secrets.GITHUB_TOKEN }}
+            token: ${{ steps.git-secrets.outputs.GITHUB_TOKEN }}
   
