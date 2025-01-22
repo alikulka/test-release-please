@@ -1,3 +1,24 @@
+# name: Release Please
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# permissions:
+#   contents: write
+#   pull-requests: write
+
+# jobs:
+#   release-please:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Release Please
+#         uses: google-github-actions/release-please-action@v4
+#         with:
+#           release-type: node  # adjust based on your project type
+#           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}  # using default GitHub token
+
 name: Release Please
 
 on:
@@ -8,13 +29,31 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write    # needed for AWS credentials
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - name: Release Please
-        uses: google-github-actions/release-please-action@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          release-type: node  # adjust based on your project type
-          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}  # using default GitHub token
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Get GitHub Token from Secrets Manager
+        id: get-token
+        run: |
+          SECRET=$(aws secretsmanager get-secret-value \
+            --secret-id github/release-please/pat \
+            --query SecretString \
+            --output text)
+          TOKEN=$(echo $SECRET | jq -r .GITHUB_TOKEN)
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: node
+          package-name: your-package-name
+          token: ${{ steps.get-token.outputs.token }}
