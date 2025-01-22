@@ -1,59 +1,34 @@
-# name: Release Please
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# permissions:
-#   contents: write
-#   pull-requests: write
-
-# jobs:
-#   release-please:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Release Please
-#         uses: google-github-actions/release-please-action@v4
-#         with:
-#           release-type: node  # adjust based on your project type
-#           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}  # using default GitHub token
-
-name: Release Please
-
-on:
-  push:
-    branches:
-      - main
-
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write    # needed for AWS credentials
-
-jobs:
-  release-please:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
-          aws-region: us-west-2
-
-      - name: Get GitHub Token from Secrets Manager
-        id: get-token
-        run: |
-          SECRET=$(aws secretsmanager get-secret-value \
-            --secret-id github/release-please/pat \
-            --query SecretString \
-            --output text)
-          TOKEN=$(echo $SECRET | jq -r .GITHUB_TOKEN)
-          echo "::add-mask::$TOKEN"
-          echo "token=$TOKEN" >> $GITHUB_OUTPUT
-
-      - uses: google-github-actions/release-please-action@v3
-        with:
-          release-type: node
-          package-name: your-package-name
-          token: ${{ steps.get-token.outputs.token }}
+---
+  name: Release Please
+  on:
+    push:
+      branches:
+        - main
+  
+  permissions:
+    contents: write
+    pull-requests: write
+  
+  jobs:
+    release-please:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-region: us-west-2
+            role-to-assume: ${{ secrets.SECRETS_AWS_PACKAGING_ROLE_TO_ASSUME }}
+            role-duration-seconds: 900
+            role-session-name: ${{ github.run_id }}
+        - name: Get git credentials
+          uses: aws-actions/aws-secretsmanager-get-secrets@v2
+          with:
+            parse-json-secrets: true
+            secret-ids: |
+              OSDS,arn:aws:secretsmanager:us-west-2:206735643321:secret:github-aws-sdk-osds-automation-gebs9n
+  
+        - uses: google-github-actions/release-please-action@v4
+          with:
+            release-type: node
+            token: ${{ steps.git-secrets.outputs.OSDS_ACCESS_TOKEN }}
+  
