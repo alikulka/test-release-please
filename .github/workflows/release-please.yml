@@ -8,6 +8,7 @@
   permissions:
     contents: write
     pull-requests: write
+    id-token: write
   
   jobs:
     release-please:
@@ -22,6 +23,7 @@
             role-session-name: ${{ github.run_id }}
         - name: Get git credentials
           uses: aws-actions/aws-secretsmanager-get-secrets@v2
+          id: git-secrets
           with:
             parse-json-secrets: true
             secret-ids: |
