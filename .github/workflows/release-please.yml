@@ -17,7 +17,7 @@
           uses: aws-actions/configure-aws-credentials@v4
           with:
             aws-region: us-west-2
-            role-to-assume: ${{ secrets.SECRETS_AWS_PACKAGING_ROLE_TO_ASSUME }}
+            role-to-assume: arn:aws:iam::337909763509:user/Administrator
             role-duration-seconds: 900
             role-session-name: ${{ github.run_id }}
         - name: Get git credentials
@@ -25,10 +25,10 @@
           with:
             parse-json-secrets: true
             secret-ids: |
-              OSDS,arn:aws:secretsmanager:us-west-2:206735643321:secret:github-aws-sdk-osds-automation-gebs9n
+              arn:aws:secretsmanager:us-west-2:337909763509:secret:github/release-please/pat-YJ2cZI
   
         - uses: google-github-actions/release-please-action@v4
           with:
             release-type: node
-            token: ${{ steps.git-secrets.outputs.OSDS_ACCESS_TOKEN }}
+            token: ${{ secrets.GITHUB_TOKEN }}
   
