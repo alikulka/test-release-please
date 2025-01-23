@@ -116,10 +116,11 @@ jobs:
             git commit -m "chore: initialize release-please configuration"
             git push
           fi          
-
-      - uses: googleapis/release-please-action@v4
+      
+      - name: Run release-please-action
+        uses: googleapis/release-please-action@v4
         with:
-          release-type: node
+          release-type: simple
           token: ${{ env.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
