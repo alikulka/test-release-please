@@ -7,7 +7,8 @@ permissions:
 
 on:
   push:
-    branches: main
+    branches: 
+      - main
 
 jobs:
   release-please:
@@ -15,7 +16,7 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4  # Add this step to checkout the code
-        
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -68,4 +69,4 @@ jobs:
           release-type: node
           token: ${{ env.GITHUB_TOKEN }}
           config-file: release-please-config.json
-          manifest-file: release-please-manifest.json
+          manifest-file: .release-please-manifest.json
