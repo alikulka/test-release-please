@@ -1,36 +1,27 @@
----
-  name: Release Please
-  on:
-    push:
-      branches:
-        - main
-  
-  permissions:
-    contents: write
-    pull-requests: write
-    id-token: write
-  
-  jobs:
-    release-please:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Configure AWS Credentials
-          uses: aws-actions/configure-aws-credentials@v4
-          with:
-            aws-region: us-west-2
-            role-to-assume: arn:aws:iam::337909763509:user/Administrator
-            role-duration-seconds: 900
-            role-session-name: ${{ github.run_id }}
-        - name: Get git credentials
-          uses: aws-actions/aws-secretsmanager-get-secrets@v2
-          id: git-secrets
-          with:
-            parse-json-secrets: true
-            secret-ids: |
-              GITHUB_TOKEN, arn:aws:secretsmanager:us-west-2:337909763509:secret:github/release-please/pat-YJ2cZI
-  
-        - uses: google-github-actions/release-please-action@v4
-          with:
-            release-type: node
-            token: ${{ steps.git-secrets.outputs.GITHUB_TOKEN }}
-  
+name: Release and Cleanup
+
+on:
+  push:
+    branches: main
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-region: us-west-2  # Replace with your AWS region
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-duration-seconds: 900
+          role-session-name: ${{ github.run_id }}
+
+      - name: Get GitHub PAT from AWS Secrets Manager
+        run: |
+          SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id GITHUB_TOKEN --query SecretString --output text)
+          echo "GITHUB_TOKEN=$SECRET_VALUE" >> $GITHUB_ENV
+
+      - uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: node
+          token: ${{ env.GITHUB_TOKEN }}
