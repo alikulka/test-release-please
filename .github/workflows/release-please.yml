@@ -22,7 +22,7 @@ jobs:
 
       - name: Get GitHub PAT from AWS Secrets Manager
         run: |
-          SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id GITHUB_TOKEN --query SecretString --output text)
+          SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id github/release-please/pat --query SecretString --output text)
           echo "GITHUB_TOKEN=$SECRET_VALUE" >> $GITHUB_ENV
 
       - uses: google-github-actions/release-please-action@v4
