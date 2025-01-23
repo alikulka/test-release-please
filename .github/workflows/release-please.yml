@@ -54,6 +54,69 @@ jobs:
             exit 1
           fi
 
+      - name: Verify Release Please Config Files
+        run: |
+          if [ ! -f "release-please-config.json" ]; then
+            echo "Creating release-please-config.json"
+            echo '{
+              "packages": {
+                ".": {
+                  "changelog-path": "CHANGELOG.md",
+                  "release-type": "node",
+                  "bump-minor-pre-major": false,
+                  "bump-patch-for-minor-pre-major": false,
+                  "draft": false,
+                  "prerelease": false
+                }
+              }
+            }' > release-please-config.json
+          fi
+
+          if [ ! -f ".release-please-manifest.json" ]; then
+            echo "Creating .release-please-manifest.json"
+            echo '{
+              ".": "0.1.0"
+            }' > .release-please-manifest.json
+          fi
+
+          if [ ! -f "package.json" ]; then
+            echo "Creating package.json"
+            echo '{
+              "name": "test-release-please",
+              "version": "0.1.0",
+              "description": "Test repository for release-please",
+              "main": "index.js",
+              "scripts": {
+                "test": "echo \"Error: no test specified\" && exit 1"
+              },
+              "repository": {
+                "type": "git",
+                "url": "git+https://github.com/alikulka/test-release-please.git"
+              },
+              "author": "",
+              "license": "ISC"
+            }' > package.json
+          fi
+
+          # Display contents of config files
+          echo "Contents of release-please-config.json:"
+          cat release-please-config.json
+          echo "Contents of .release-please-manifest.json:"
+          cat .release-please-manifest.json
+          echo "Contents of package.json:"
+          cat package.json
+
+      - name: Commit Config Files If Missing
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "chore: initialize release-please configuration"
+            git push
+          fi          
+
       - uses: googleapis/release-please-action@v4
         with:
           release-type: node
