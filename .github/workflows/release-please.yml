@@ -63,3 +63,5 @@ jobs:
         with:
           release-type: node
           token: ${{ env.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: release-please-manifest.json
