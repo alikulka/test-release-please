@@ -25,7 +25,7 @@ jobs:
           SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id github/release-please/pat --query SecretString --output text)
           echo "GITHUB_TOKEN=$SECRET_VALUE" >> $GITHUB_ENV
 
-      - uses: google-github-actions/release-please-action@v4
+      - uses: googleapis/release-please-action@v4
         with:
           release-type: node
           token: ${{ env.GITHUB_TOKEN }}
