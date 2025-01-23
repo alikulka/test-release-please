@@ -25,16 +25,6 @@ jobs:
           role-duration-seconds: 900
           role-session-name: ${{ github.run_id }}
 
-      # - name: Get GitHub PAT from AWS Secrets Manager
-      #   run: |
-      #     SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id github/release-please/pat --query SecretString --output text)
-      #     echo "GITHUB_TOKEN=$SECRET_VALUE" >> $GITHUB_ENV
-
-      # - uses: googleapis/release-please-action@v4
-      #   with:
-      #     release-type: node
-      #     token: ${{ env.GITHUB_TOKEN }}
-
       - name: Get and Process GitHub PAT from AWS Secrets Manager
         run: |
           SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id github/release-please/pat --query SecretString --output text)
