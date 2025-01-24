@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/alikulka/test-release-please/compare/v1.1.1...v2.0.0) (2025-01-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* major test
+
+### Features
+
+* major test ([b3b2906](https://github.com/alikulka/test-release-please/commit/b3b29069b616ebb9d45c98ec1743e02d997abcf3))
+
 ## [1.1.1](https://github.com/alikulka/test-release-please/compare/v1.1.0...v1.1.1) (2025-01-24)
 
 
