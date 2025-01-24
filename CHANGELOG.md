@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/alikulka/test-release-please/compare/v1.1.0...v1.1.1) (2025-01-24)
+
+
+### Bug Fixes
+
+* resolve issue ([b03acb8](https://github.com/alikulka/test-release-please/commit/b03acb8774e89c2ae3a70381905cfb1155cdb401))
+
 ## [1.1.0](https://github.com/alikulka/test-release-please/compare/v1.0.0...v1.1.0) (2025-01-24)
 
 
