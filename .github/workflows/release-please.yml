@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4  # Add this step to checkout the code
+        with:
+          fetch-depth: 0
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -41,7 +43,6 @@ jobs:
 
       - name: Test GitHub Token
         run: |
-          # Test if the token works with GitHub API
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
@@ -120,7 +121,7 @@ jobs:
       - name: Run release-please-action
         uses: googleapis/release-please-action@v4
         with:
-          release-type: simple
+          release-type: node
           token: ${{ env.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
