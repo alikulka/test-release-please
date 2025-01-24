@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/alikulka/test-release-please/compare/v1.0.0...v1.1.0) (2025-01-24)
+
+
+### Features
+
+* changed the release-type ([1c8c842](https://github.com/alikulka/test-release-please/commit/1c8c842da1a1c1255b9a6e5d8699540a431bcfb3))
+
 ## 1.0.0 (2025-01-23)
 
 
