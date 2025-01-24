@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/alikulka/test-release-please/compare/v2.0.0...v2.1.0) (2025-01-24)
+
+
+### Features
+
+* updated git credentials fetch ([6a176c9](https://github.com/alikulka/test-release-please/commit/6a176c900f5f6081475b666c2ff7a0f124a420fb))
+
 ## [2.0.0](https://github.com/alikulka/test-release-please/compare/v1.1.1...v2.0.0) (2025-01-24)
 
 
