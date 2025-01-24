@@ -1,4 +1,5 @@
 {
     ".release-please-manifest.json": "0.1.0",
-    "package.json": "0.1.0"
+    "package.json": "0.1.0",
+    ".": "1.0.0"
 }
