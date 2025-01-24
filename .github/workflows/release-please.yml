@@ -19,6 +19,8 @@ jobs:
         with:
           fetch-depth: 0
 
+    # omg breaking change
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
