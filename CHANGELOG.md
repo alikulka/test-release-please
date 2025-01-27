@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.0](https://github.com/alikulka/test-release-please/compare/v2.1.0...v3.0.0) (2025-01-27)
+
+
+### Miscellaneous Chores
+
+* release 3.0.0 ([dcaa66e](https://github.com/alikulka/test-release-please/commit/dcaa66eac61fb40ad9cab533a3b3587c78b0bd66))
+
 ## [2.1.0](https://github.com/alikulka/test-release-please/compare/v2.0.0...v2.1.0) (2025-01-24)
 
 
